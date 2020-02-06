@@ -138,8 +138,9 @@ var Webcam = {
 				}
 			})
 			.then( function(stream) {
-				// got access, attach stream to video
+				// Fix Bug : ELsayed Iraky
 				video.srcObject = stream;
+				///
 				self.stream = stream;
 				self.loaded = true;
 				self.live = true;
