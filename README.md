@@ -1,2 +1,0 @@
-# elsayediraky
-Customization odoo Addons

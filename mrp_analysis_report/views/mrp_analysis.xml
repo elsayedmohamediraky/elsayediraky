@@ -1,0 +1,59 @@
+<odoo>
+    <data>
+        <record id="mrp_analysis_wizard_form" model="ir.ui.view">
+            <field name="name">mrp.analysis.form</field>
+            <field name="model">mrp.analysis</field>
+            <field name="arch" type="xml">
+                <form string="MRP Analysis">
+                    <p class="oe_view_nocontent_create">
+                        Select Type Report and Date From Here ..
+                    </p>
+                    <p>
+                    </p>
+                    <sheet>
+                        <field name="is_printed" attrs="{'invisible':1}"/>
+
+                        <group col="4">
+                            <field name="type" attrs="{'invisible': [('is_printed','=',True)]}"/>
+                            <field name="date_from" attrs="{'invisible': [('is_printed','=',True)]}"/>
+                            <field name="date_to" attrs="{'invisible': [('is_printed','=',True)]}"/>
+
+
+                            <field name="categ_id" attrs="{'invisible': ['|',('is_printed','=',True),('type','!=','summery')]}" options="{'no_create': True}"/>
+                            <field name="product_id" attrs="{'invisible': ['|',('is_printed','=',True),('type','not in',['summery','detailed'])]}" options="{'no_create': True}"/>
+                            <field name="production_id" attrs="{'invisible': ['|',('is_printed','=',True),('type','not in',['usage','detailed'])]}" widget="many2many_tags" options="{'no_create': True}"/>
+
+                            <field name="file_name" invisible="1" attrs="{'invisible': [('is_printed','=',True)]}"/>
+                            <field name="mrp_report_file" readonly="1" filename="file_name"
+                                   attrs="{'invisible': [('is_printed','=',False)]}"/>
+                            <!--<field name="inventory_printed" invisible="1"/>-->
+                        </group>
+                    </sheet>
+                    <footer>
+
+                        <button name="mrp_analysis_report" type="object" string="Print" default_focus="1" attrs="{'invisible': [('is_printed','=',True)]}"
+                                class="oe_highlight"/>
+
+                        <button name="print_other_report" type="object" string="Print Other Report"  attrs="{'invisible': [('is_printed','=',False)]}"
+                                class="oe_highlight" />
+
+						<button string="Cancel" class="btn-primary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <act_window id='mrp_analysis_wizard_report_action' res_model='mrp.analysis'
+        name='MRP Analysis Report' view_mode='form'
+        target='new'
+        context="{}"
+        domain="[]" limit='80'
+        />
+
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="mrp_analysis_wizard__menu_action" name="MRP Analysis" parent="mrp.menu_mrp_reporting"
+        action="mrp_analysis_wizard_report_action" sequence="3"/>
+    </data>
+</odoo>
